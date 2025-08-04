@@ -3,6 +3,7 @@ import MainLayoot from "../LayOut/MainLayoot";
 import Home from "../Page/Home/Home";
 import Register from "../Page/Register/Register";
 import SignIn from "../Page/Register/SignIn";
+import HotJobs from "../Page/Home/HotJobs";
 
 const router = createBrowserRouter([
     {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
             {
                 path:"login",
                 element:<SignIn></SignIn>
+            },
+            {
+                path:"hotjobs",
+                element:<HotJobs></HotJobs>
             },
         ]
     },

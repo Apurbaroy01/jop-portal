@@ -15,16 +15,16 @@ const Home = () => {
                     />
                     <motion.img
                         src={team2}
-                        animate={{ x: [40, 80, 50] }}
+                        animate={{ x: [40, 80, 0] }}
                         transition={{ duration: 10, delay: 0, repeat: Infinity }}
                         className="max-w-sm w-64 rounded-br-3xl rounded-tl-3xl border-l-4 border-r-4 border-blue-400 shadow-2xl"
                     />
                 </div>
                 <div className="flex-1">
-                    <h1 className="text-5xl font-bold">Box Office News!</h1>
+                    
                     <motion.h1
-                        animate={{ x: [0,50,0], y: 20 }}
-                        transition={{ duration: 1, delay: 0, ease: easeOut, repeat: Infinity }}
+                        animate={{ x: [0,50,50], y: 20 }}
+                        transition={{ duration: 1, delay: 0, ease: easeOut,  }}
                         className="text-5xl font-bold">Box Office News!</motion.h1>
 
                     <p className="py-6">
