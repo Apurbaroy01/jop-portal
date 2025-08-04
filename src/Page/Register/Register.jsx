@@ -3,9 +3,10 @@ import registerAnimation from '../../assets/Loti/register.json'
 import { useContext } from 'react';
 import AuthContext from '../../ConText/AuthContext/AuthContext';
 
+
 const Register = () => {
     const { CreateUser } = useContext(AuthContext)
-
+    
     const handleRegister = (e) => {
         e.preventDefault()
         const form = e.target;
@@ -15,13 +16,14 @@ const Register = () => {
         console.log(submitData)
 
         CreateUser(email, password)
-        .then((result)=>{
-            console.log(result.user)
-            form.reset();
-        })
-        .catch((error)=>{
-            console.log(error.message)
-        })
+            .then((result) => {
+                console.log(result.user)
+                form.reset();
+                
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
 
 
     };
