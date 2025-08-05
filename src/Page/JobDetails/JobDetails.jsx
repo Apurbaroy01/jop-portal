@@ -1,9 +1,9 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 
 const JobDetails = () => {
   const loadingJob = useLoaderData();
-  const { title, company, deadline, location, salary, description } = loadingJob;
+  const {_id, title, company, deadline, location, salary, description } = loadingJob;
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 md:p-10">
@@ -22,9 +22,11 @@ const JobDetails = () => {
         </div>
 
         <div className="mt-8 text-right">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl transition duration-200">
-            Apply Now
-          </button>
+          <Link to={`/jobApply/${_id}`}>
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl transition duration-200">
+              Apply Now
+            </button>
+          </Link>
         </div>
       </div>
     </div>

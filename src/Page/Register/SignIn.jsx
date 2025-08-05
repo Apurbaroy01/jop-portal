@@ -10,7 +10,7 @@ const SignIn = () => {
     
     const {signIn}=useContext(AuthContext)
     const location=useLocation();
-    console.log('signinl',location)
+    // console.log('signin',location)
     const from = location.state || '/'
     const navigate= useNavigate();
 
