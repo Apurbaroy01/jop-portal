@@ -55,7 +55,7 @@ const JobApply = () => {
                                 <label className="label">Resume</label>
                                 <input type="text" className="input" placeholder="Resume" name="resume"/>
 
-                                <button className="btn btn-neutral mt-4">Login</button>
+                                <button className="btn btn-neutral mt-4">Submit</button>
                             </fieldset>
                         </form>
                     </div>
