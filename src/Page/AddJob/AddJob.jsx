@@ -1,6 +1,15 @@
-import React from 'react';
+import React from "react";
+import useAuth from "../../Hooks/UseAuth";
 
 const AddJob = () => {
+    const { user } = useAuth();
+
+    const now = new Date();
+    const appliedAt = now.toLocaleString('en-US', {
+        timeZone: 'Asia/Dhaka',
+        hour12: true
+    });
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -18,15 +27,17 @@ const AddJob = () => {
 
         const requirementsArray = form.requirements.value
             .split("\n")
-            .map(item => item.trim())
-            .filter(item => item);
+            .map((item) => item.trim())
+            .filter((item) => item);
 
         const responsibilitiesArray = form.responsibilities.value
             .split("\n")
-            .map(item => item.trim())
-            .filter(item => item);
+            .map((item) => item.trim())
+            .filter((item) => item);
 
         const salaryRange = { min, max, currency };
+
+
 
         const data = {
             company,
@@ -38,21 +49,30 @@ const AddJob = () => {
             category,
             salaryRange,
             requirements: requirementsArray,
-            responsibilities: responsibilitiesArray
+            responsibilities: responsibilitiesArray,
+            email: user?.email || "",
+            time: appliedAt,
         };
 
         console.log(data);
 
-        fetch('http://localhost:5000/jobs', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        fetch("http://localhost:5000/jobs", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         })
-            .then(res => res.json())
-            .then(data => {
+            .then((res) => res.json())
+            .then((data) => {
                 console.log(data);
             });
     };
+
+    const inputClass =
+        "input input-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 transition";
+    const selectClass =
+        "select select-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200";
+    const textareaClass =
+        "textarea textarea-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200";
 
     return (
         <div className="w-full min-h-screen bg-gradient-to-br from-indigo-50 via-white to-indigo-100 flex justify-center items-center p-6">
@@ -65,27 +85,79 @@ const AddJob = () => {
                 </h2>
 
                 <fieldset className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[
-                        { label: "Company Name", name: "companyName", placeholder: "Company name" },
-                        { label: "Job Title", name: "jobTitle", placeholder: "Job title" },
-                        { label: "Job Location", name: "jobLocation", placeholder: "Job location" },
-                        { label: "HR Email", name: "hrEmail", placeholder: "HR email" },
-                        { label: "Company URL", name: "companyUrl", placeholder: "Company website" },
-                    ].map((field, idx) => (
-                        <div key={idx}>
-                            <label className="block font-semibold text-gray-700 mb-1">{field.label}</label>
-                            <input
-                                type="text"
-                                name={field.name}
-                                placeholder={field.placeholder}
-                                className="input input-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 transition"
-                            />
-                        </div>
-                    ))}
-
+                    {/* Company Name */}
                     <div>
-                        <label className="block font-semibold text-gray-700 mb-1">Job Type</label>
-                        <select name="jobType" className="select select-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200">
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            Company Name
+                        </label>
+                        <input
+                            type="text"
+                            name="companyName"
+                            placeholder="Company name"
+                            className={inputClass}
+                        />
+                    </div>
+
+                    {/* Job Title */}
+                    <div>
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            Job Title
+                        </label>
+                        <input
+                            type="text"
+                            name="jobTitle"
+                            placeholder="Job title"
+                            className={inputClass}
+                        />
+                    </div>
+
+                    {/* Job Location */}
+                    <div>
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            Job Location
+                        </label>
+                        <input
+                            type="text"
+                            name="jobLocation"
+                            placeholder="Job location"
+                            className={inputClass}
+                        />
+                    </div>
+
+                    {/* HR Email */}
+                    <div>
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            HR Email
+                        </label>
+                        <input
+                            type="email"
+                            name="hrEmail"
+                            placeholder="HR email"
+                            className={inputClass}
+                            defaultValue={user?.email || ""}
+                            disabled
+                        />
+                    </div>
+
+                    {/* Company URL */}
+                    <div>
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            Company URL
+                        </label>
+                        <input
+                            type="text"
+                            name="companyUrl"
+                            placeholder="Company website"
+                            className={inputClass}
+                        />
+                    </div>
+
+                    {/* Job Type */}
+                    <div>
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            Job Type
+                        </label>
+                        <select name="jobType" className={selectClass}>
                             <option value="">Select job type</option>
                             <option>Full-Time</option>
                             <option>Intern</option>
@@ -93,9 +165,12 @@ const AddJob = () => {
                         </select>
                     </div>
 
+                    {/* Job Field */}
                     <div>
-                        <label className="block font-semibold text-gray-700 mb-1">Job Field</label>
-                        <select name="jobField" className="select select-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200">
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            Job Field
+                        </label>
+                        <select name="jobField" className={selectClass}>
                             <option value="">Select job field</option>
                             <option>Engineering</option>
                             <option>Marketing</option>
@@ -103,9 +178,12 @@ const AddJob = () => {
                         </select>
                     </div>
 
+                    {/* Currency */}
                     <div>
-                        <label className="block font-semibold text-gray-700 mb-1">Currency</label>
-                        <select name="currency" className="select select-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200">
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            Currency
+                        </label>
+                        <select name="currency" className={selectClass}>
                             <option value="">Select currency</option>
                             <option>USD</option>
                             <option>BDT</option>
@@ -113,49 +191,54 @@ const AddJob = () => {
                         </select>
                     </div>
 
-                    <div className="w-full">
-                        <label className="block font-semibold text-gray-700 mb-1">Salary Range</label>
+                    {/* Salary Range */}
+                    <div className="w-full md:col-span-2">
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            Salary Range
+                        </label>
                         <div className="flex flex-col md:flex-row gap-4 w-full">
                             <input
                                 type="text"
                                 name="salaryMin"
                                 placeholder="Min"
-                                className="input input-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+                                className={inputClass}
                             />
                             <input
                                 type="text"
                                 name="salaryMax"
                                 placeholder="Max"
-                                className="input input-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+                                className={inputClass}
                             />
                         </div>
                     </div>
 
-
-
-
-                    <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block font-semibold text-gray-700 mb-1">Job Requirements</label>
-                            <textarea
-                                name="requirements"
-                                className="textarea textarea-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200"
-                                placeholder="Write each requirement on a new line"
-                            ></textarea>
-                        </div>
-
-                        <div>
-                            <label className="block font-semibold text-gray-700 mb-1">Responsibilities</label>
-                            <textarea
-                                name="responsibilities"
-                                className="textarea textarea-bordered w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200"
-                                placeholder="Write each responsibility on a new line"
-                            ></textarea>
-                        </div>
+                    {/* Job Requirements */}
+                    <div className="md:col-span-1">
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            Job Requirements
+                        </label>
+                        <textarea
+                            name="requirements"
+                            className={textareaClass}
+                            placeholder="Write each requirement on a new line"
+                        ></textarea>
                     </div>
-                    
+
+                    {/* Responsibilities */}
+                    <div className="md:col-span-1">
+                        <label className="block font-semibold text-gray-700 mb-1">
+                            Responsibilities
+                        </label>
+                        <textarea
+                            name="responsibilities"
+                            className={textareaClass}
+                            placeholder="Write each responsibility on a new line"
+                        ></textarea>
+                    </div>
                 </fieldset>
-                <button className='btn btn-primary w-full mt-5'>Submit job</button>
+
+                {/* Submit Button */}
+                <button className="btn btn-primary w-full mt-5">Submit job</button>
             </form>
         </div>
     );
