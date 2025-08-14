@@ -29,6 +29,7 @@ const MyPodtJobs = () => {
                         <th>Job Title</th>
                         <th>DateLine</th>
                         <th>Count</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
