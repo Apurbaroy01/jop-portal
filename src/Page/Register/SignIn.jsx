@@ -3,6 +3,7 @@ import registerAnimation from '../../assets/Loti/register.json'
 import { useContext } from 'react';
 import AuthContext from '../../ConText/AuthContext/AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 
@@ -24,7 +25,14 @@ const SignIn = () => {
 
         signIn(email, password)
         .then((reault)=>{
-            console.log(reault.user)
+            console.log(reault.user.email)
+            const user = {email: email}
+            axios.post('http://localhost:5000/jwt', user)
+            .then(res=>{
+                console.log(res.data)
+            })
+        
+
             navigate(from)
         })
         .catch((error)=>{
