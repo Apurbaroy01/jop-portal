@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useAuth from '../../Hooks/UseAuth';
+import axios from 'axios';
 
 const MyApplication = () => {
     const { user } = useAuth();
@@ -8,16 +9,24 @@ const MyApplication = () => {
 
     useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:5000/job-applications?email=${user.email}`)
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    setJobs(data);
+            // fetch(`http://localhost:5000/job-applications?email=${user.email}`)
+            //     .then(res => res.json())
+            //     .then(data => {
+            //         console.log(data);
+            //         setJobs(data);
+            //     })
+            //     .catch(err => {
+            //         console.error('Failed to fetch job applications:', err);
+            //     });
+
+            axios.get(`http://localhost:5000/job-applications?email=${user.email}`,
+                { withCredentials: true })
+                .then(res => {
+                    console.log(res.data);
+                    setJobs(res.data);
                 })
-                .catch(err => {
-                    console.error('Failed to fetch job applications:', err);
-                });
-        }
+            }
+               
     }, [user?.email]); // ✅ now it waits for email to exist
 
     return (
