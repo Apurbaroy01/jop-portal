@@ -1,20 +1,25 @@
 import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import AuthContext from "../ConText/AuthContext/AuthContext";
+import axios from "axios";
 
 
 const Navbar = () => {
-    const { user ,SignOut} = useContext(AuthContext)
+    const { user, SignOut } = useContext(AuthContext)
 
-    const handleSignOut=()=>{
+    const handleSignOut = () => {
 
         SignOut()
-        .then(()=>{
-            console.log('SignOut SuccessFully')
-        })
-        .catch((error=>{
-            console.log(error.message)
-        }))
+            .then(() => {
+                console.log('SignOut SuccessFully')
+                axios.post("http://localhost:5000/logout", {}, { withCredentials: true })
+                    .then(res => console.log(res.data))
+                    .catch(err => console.error(err));
+
+            })
+            .catch((error => {
+                console.log(error.message)
+            }))
     }
 
 
@@ -23,7 +28,7 @@ const Navbar = () => {
         <li><NavLink to="/mypostjob">My Post job</NavLink></li>
         <li><NavLink to="/addjob">Add Job</NavLink></li>
         <li><NavLink to="/myApplication">My Applications</NavLink></li>
-        
+
     </>
     return (
         <div>
@@ -50,7 +55,7 @@ const Navbar = () => {
 
                     {
                         user ? <>
-                        <button onClick={handleSignOut} className="btn">SignOut</button>
+                            <button onClick={handleSignOut} className="btn">SignOut</button>
                         </> : <>
                             <Link to="/register"><div className="btn">Register</div></Link>
                             <Link to="/login"><div className="btn">Login</div></Link>

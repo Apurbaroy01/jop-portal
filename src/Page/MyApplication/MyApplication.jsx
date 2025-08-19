@@ -1,32 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import useAuth from '../../Hooks/UseAuth';
-import axios from 'axios';
+import useAxos from '../../Hooks/useAxos';
+
+// import axios from 'axios';
+
 
 const MyApplication = () => {
     const { user } = useAuth();
     const [jobs, setJobs] = useState([]);
     // console.log(jobs)
+    const axiosSecure  = useAxos();
 
     useEffect(() => {
         if (user?.email) {
-            // fetch(`http://localhost:5000/job-applications?email=${user.email}`)
-            //     .then(res => res.json())
-            //     .then(data => {
-            //         console.log(data);
-            //         setJobs(data);
-            //     })
-            //     .catch(err => {
-            //         console.error('Failed to fetch job applications:', err);
-            //     });
 
-            axios.get(`http://localhost:5000/job-applications?email=${user.email}`,
-                { withCredentials: true })
+            axiosSecure.get(`/job-applications?email=${user.email}`)
                 .then(res => {
                     console.log(res.data);
                     setJobs(res.data);
                 })
-            }
-               
+        }
+
     }, [user?.email]); // ✅ now it waits for email to exist
 
     return (
@@ -38,7 +32,7 @@ const MyApplication = () => {
                     {/* head */}
                     <thead>
                         <tr>
-    
+
                             <th>Name</th>
                             <th>Job</th>
                             <th>Favorite Color</th>
@@ -50,8 +44,8 @@ const MyApplication = () => {
 
                         {
                             jobs.map(job =>
-                                <tr key={ job._id}>
-                                    
+                                <tr key={job._id}>
+
                                     <td>
                                         <div className="flex items-center gap-3">
                                             <div className="avatar">
